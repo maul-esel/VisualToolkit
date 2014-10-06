@@ -44,6 +44,7 @@
     <Compile Include="EventableCollection.cs" />
     <Compile Include="Scrollbar.cs" />
     <Compile Include="GeometryHelper.cs" />
+    <Compile Include="ScrollableControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
