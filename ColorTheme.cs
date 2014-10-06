@@ -29,6 +29,19 @@ namespace VisualToolkit
 			set { highlightTheme = value; }
 		}
 
+		private static ColorTheme contrastTheme = new ColorTheme() {
+			TextColor = Color.White,
+			BackColor = Color.Black,
+			SymbolColor = Color.White,
+			BorderColor = Color.Gray
+		};
+
+		public static ColorTheme ContrastTheme {
+			get { return contrastTheme; }
+			set { contrastTheme = value; }
+		}
+
+
 		public Color TextColor { get; set; }
 		public Color BackColor { get; set; }
 		public Color SymbolColor { get; set; }
