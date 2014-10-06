@@ -21,5 +21,16 @@ namespace VisualToolkit
 			}
 			throw new NotSupportedException();
 		}
+
+		public static int GetDimension(Point pt, Orientation orientation)
+		{
+			switch (orientation) {
+				case Orientation.Horizontal:
+					return pt.X;
+				case Orientation.Vertical:
+					return pt.Y;
+			}
+			throw new NotSupportedException();
+		}
 	}
 }
