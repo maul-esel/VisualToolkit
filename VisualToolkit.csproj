@@ -41,6 +41,7 @@
     <Compile Include="VerticalSeparator.cs" />
     <Compile Include="PaintHelper.cs" />
     <Compile Include="ItemEventArgs.cs" />
+    <Compile Include="EventableCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
