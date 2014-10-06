@@ -39,6 +39,7 @@
     <Compile Include="HorizontalSeparator.cs" />
     <Compile Include="Separator.cs" />
     <Compile Include="VerticalSeparator.cs" />
+    <Compile Include="PaintHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
