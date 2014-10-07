@@ -32,5 +32,15 @@ namespace VisualToolkit
 			}
 			throw new NotSupportedException();
 		}
+
+		public static Rectangle ApplyPadding(Rectangle rect, Padding pad)
+		{
+			return new Rectangle(
+				rect.Left + pad.Left,
+				rect.Top + pad.Top,
+				rect.Width - pad.Horizontal,
+				rect.Height - pad.Vertical
+			);
+		}
 	}
 }
