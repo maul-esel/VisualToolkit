@@ -18,6 +18,8 @@ namespace VisualToolkit
 
 			moveNearTimer.Tick += (s, e) => moveNear();
 			moveFarTimer.Tick += (s, e) => moveFar();
+
+			SetStyle(ControlStyles.ResizeRedraw, true);
 		}
 
 		public Color ButtonBackColor {
@@ -127,12 +129,6 @@ namespace VisualToolkit
 			get { return new Size(Thickness, Thickness); }
 		}
 
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			Invalidate();
-			base.OnSizeChanged(e);
-		}
-
 		#region mouse handling
 		private bool isDragging = false;
 		private Point lastDraggingPoint;
@@ -165,7 +161,7 @@ namespace VisualToolkit
 				int pixelDistance = GeometryHelper.GetDimension(e.Location, Orientation) - GeometryHelper.GetDimension(lastDraggingPoint, Orientation);
 				int areaLength = GeometryHelper.GetDimension(ClientSize, Orientation) - 2 * GeometryHelper.GetDimension(ButtonSize, Orientation);
 				int scrollDelta = (int)(pixelDistance / (float)areaLength * ScrollDistance);
-	
+
 				ScrollValue = Math.Min(Math.Max(ScrollValue + scrollDelta, MinimumValue), MaximumValue);
 				lastDraggingPoint = e.Location;
 			}

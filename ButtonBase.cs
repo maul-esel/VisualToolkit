@@ -19,12 +19,7 @@ namespace VisualToolkit
 			PressedBorderColor = ColorTheme.HighlightTheme.BorderColor;
 
 			SetStyle(ControlStyles.StandardClick, false);
-		}
-
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			Invalidate();
-			base.OnSizeChanged(e);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 		}
 
 		protected virtual Padding PressExpansion {
