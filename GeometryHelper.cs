@@ -42,5 +42,15 @@ namespace VisualToolkit
 				rect.Height - pad.Vertical
 			);
 		}
+
+		public static RectangleF ApplyPadding(RectangleF rect, Padding pad)
+		{
+			return new RectangleF(
+				rect.Left + pad.Left,
+				rect.Top + pad.Top,
+				rect.Width - pad.Horizontal,
+				rect.Height - pad.Vertical
+			);
+		}
 	}
 }
