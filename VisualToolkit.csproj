@@ -45,6 +45,8 @@
     <Compile Include="Scrollbar.cs" />
     <Compile Include="GeometryHelper.cs" />
     <Compile Include="ScrollableControl.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="ButtonBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
