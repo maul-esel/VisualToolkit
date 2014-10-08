@@ -133,10 +133,8 @@ namespace VisualToolkit
 		private bool isDragging = false;
 		private Point lastDraggingPoint;
 
-		private readonly Timer moveNearTimer = new Timer() { Interval = 40 };
-		private readonly Timer moveFarTimer = new Timer() { Interval = 40 };
-
-		private DateTime moveTimerStarted;
+		private readonly TickOnceTimer moveNearTimer = new TickOnceTimer(40);
+		private readonly TickOnceTimer moveFarTimer  = new TickOnceTimer(40);
 
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
@@ -144,13 +142,10 @@ namespace VisualToolkit
 				if (GetScrollThumbRectangle().Contains(e.Location)) {
 					isDragging = true;
 					lastDraggingPoint = e.Location;
-				} else if (GetNearButtonRectangle().Contains(e.Location)) {
+				} else if (GetNearButtonRectangle().Contains(e.Location))
 					moveNearTimer.Start();
-					moveTimerStarted = DateTime.UtcNow;
-				} else if (GetFarButtonRectangle().Contains(e.Location)) {
+				else if (GetFarButtonRectangle().Contains(e.Location))
 					moveFarTimer.Start();
-					moveTimerStarted = DateTime.Now;
-				}
 			}
 			base.OnMouseDown(e);
 		}
@@ -172,17 +167,11 @@ namespace VisualToolkit
 		{
 			isDragging = false;
 
-			if (moveNearTimer.Enabled) {
+			if (moveNearTimer.Enabled)
 				moveNearTimer.Stop();
-				if ((DateTime.UtcNow - moveTimerStarted).TotalMilliseconds < moveNearTimer.Interval)
-					moveNear();
-			}
 
-			if (moveFarTimer.Enabled) {
+			if (moveFarTimer.Enabled)
 				moveFarTimer.Stop();
-				if ((DateTime.UtcNow - moveTimerStarted).TotalMilliseconds < moveFarTimer.Interval)
-					moveFar();
-			}
 
 			base.OnMouseUp(e);
 		}
