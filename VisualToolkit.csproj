@@ -50,6 +50,10 @@
     <Compile Include="BackForwardsButton.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="TickOnceTimer.cs" />
+    <Compile Include="List.cs" />
+    <Compile Include="InvocationMode.cs" />
+    <Compile Include="List.Item.cs" />
+    <Compile Include="List.Group.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
