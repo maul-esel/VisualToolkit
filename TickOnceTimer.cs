@@ -27,7 +27,7 @@ namespace VisualToolkit
 
 		public new void Stop()
 		{
-			if (!ticked && EnsureOneTick)
+			if (Enabled && !ticked && EnsureOneTick)
 				OnTick(EventArgs.Empty);
 			ticked = false;
 			base.Stop();

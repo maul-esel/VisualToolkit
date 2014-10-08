@@ -167,11 +167,8 @@ namespace VisualToolkit
 		{
 			isDragging = false;
 
-			if (moveNearTimer.Enabled)
-				moveNearTimer.Stop();
-
-			if (moveFarTimer.Enabled)
-				moveFarTimer.Stop();
+			moveNearTimer.Stop();
+			moveFarTimer.Stop();
 
 			base.OnMouseUp(e);
 		}
