@@ -47,6 +47,7 @@
     <Compile Include="ScrollableControl.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="ButtonBase.cs" />
+    <Compile Include="BackForwardsButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
