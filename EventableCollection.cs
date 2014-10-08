@@ -9,14 +9,31 @@ namespace VisualToolkit
 	{
 		private readonly List<TItem> itemList = new List<TItem>();
 
+		public EventableCollection(bool allowDuplicates)
+		{
+			this.allowDuplicates = allowDuplicates;
+		}
+
 		public EventableCollection()
+			: this(true)
 		{
 		}
 
-		public EventableCollection(IEnumerable<TItem> items)
-			: this()
+		public EventableCollection(IEnumerable<TItem> items, bool allowDuplicates)
+			: this(allowDuplicates)
 		{
 			AddRange(items);
+		}
+
+		public EventableCollection(IEnumerable<TItem> items)
+			: this(items, true)
+		{
+		}
+
+		private readonly bool allowDuplicates;
+
+		public bool AllowDuplicates {
+			get { return allowDuplicates; }
 		}
 
 		public void AddRange(IEnumerable<TItem> items)
@@ -69,16 +86,21 @@ namespace VisualToolkit
 
 		public void Add(TItem item)
 		{
-			item.PropertyChanged += OnItemChanged;
-			itemList.Add(item);
-			OnItemAdded(new ItemEventArgs<TItem>(item));
+			if (AllowDuplicates || !Contains(item)) {
+				item.PropertyChanged += OnItemChanged;
+				itemList.Add(item);
+				OnItemAdded(new ItemEventArgs<TItem>(item));
+			}
 		}
 
 		public void Insert(int index, TItem item)
 		{
-			item.PropertyChanged += OnItemChanged;
-			itemList.Insert(index, item);
-			OnItemAdded(new ItemEventArgs<TItem>(item));
+			if (AllowDuplicates || !Contains(item)) {
+				item.PropertyChanged += OnItemChanged;
+				itemList.Insert(index, item);
+				OnItemAdded(new ItemEventArgs<TItem>(item));
+			} else
+				throw new InvalidOperationException("Duplicate item");
 		}
 
 		public bool Remove(TItem item)
