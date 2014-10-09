@@ -15,5 +15,12 @@ namespace VisualToolkit
 		{
 			DrawDisabledFilter(g, ctrl.ClientRectangle);
 		}
+
+		internal static void FillWithParentBackground(Graphics g, Control ctrl)
+		{
+			Color parentBack = ctrl.Parent.BackColor;
+			using (Brush brush = new SolidBrush(parentBack))
+				g.FillRectangle(brush, ctrl.ClientRectangle);
+		}
 	}
 }

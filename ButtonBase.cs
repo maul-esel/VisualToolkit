@@ -36,9 +36,7 @@ namespace VisualToolkit
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			Color parentBack = Parent.BackColor;
-			using (Brush brush = new SolidBrush(parentBack))
-				e.Graphics.FillRectangle(brush, ClientRectangle);
+			PaintHelper.FillWithParentBackground(e.Graphics, this);
 		}
 
 		public int BorderWidth {

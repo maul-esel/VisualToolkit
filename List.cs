@@ -271,5 +271,12 @@ namespace VisualToolkit
 			get;
 			set;
 		}
+
+		#region painting
+		protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+		{
+			PaintHelper.FillWithParentBackground(e.Graphics, this);
+		}
+		#endregion
 	}
 }
