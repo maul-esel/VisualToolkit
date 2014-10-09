@@ -14,7 +14,7 @@ namespace VisualToolkit
 			itemList.CollectionChanged += OnItemsChanged;
 			groupList.CollectionChanged += OnGroupsChanged;
 
-			ItemHeight = 50;
+			ItemHeight = 75;
 			ItemBorderWidth = 2;
 
 			ForeColor       = ColorTheme.DefaultTheme.TextColor;
@@ -30,6 +30,15 @@ namespace VisualToolkit
 			: this()
 		{
 			itemList.AddRange(items);
+		}
+
+		public override bool AutoSize {
+			get { return true; }
+		}
+
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			return new Size(proposedSize.Width, Math.Max(proposedSize.Height, Padding.Vertical + Items.Count * ItemHeight));
 		}
 
 		#region styling
