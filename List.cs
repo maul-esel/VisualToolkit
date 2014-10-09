@@ -13,6 +13,17 @@ namespace VisualToolkit
 		{
 			itemList.CollectionChanged += OnItemsChanged;
 			groupList.CollectionChanged += OnGroupsChanged;
+
+			ItemHeight = 50;
+			ItemBorderWidth = 2;
+
+			ForeColor       = ColorTheme.DefaultTheme.TextColor;
+			ItemBackColor   = ColorTheme.DefaultTheme.BackColor;
+			ItemBorderColor = ColorTheme.DefaultTheme.BorderColor;
+
+			SelectedItemForeColor   = ColorTheme.DefaultTheme.TextColor;
+			SelectedItemBackColor   = ColorTheme.DefaultTheme.BackColor;
+			SelectedItemBorderColor = ColorTheme.DefaultTheme.BorderColor;
 		}
 
 		public List(IEnumerable<Item> items)
@@ -20,6 +31,43 @@ namespace VisualToolkit
 		{
 			itemList.AddRange(items);
 		}
+
+		#region styling
+		public Color ItemBackColor {
+			get;
+			set;
+		}
+
+		public Color ItemBorderColor {
+			get;
+			set;
+		}
+
+		public int ItemBorderWidth {
+			get;
+			set;
+		}
+
+		public Color SelectedItemForeColor {
+			get;
+			set;
+		}
+
+		public Color SelectedItemBackColor {
+			get;
+			set;
+		}
+
+		public Color SelectedItemBorderColor {
+			get;
+			set;
+		}
+
+		public int ItemHeight {
+			get;
+			set;
+		}
+		#endregion
 
 		private bool itemsFromDataSource = false;
 
