@@ -31,10 +31,22 @@ namespace VisualToolkit
 			}
 		}
 
+		protected Rectangle ContentRectangle {
+			get {
+				return new Rectangle(
+					ClientRectangle.Location,
+					new Size(
+						ClientRectangle.Width -  (vscroll.Visible ? vscroll.Thickness : 0),
+						ClientRectangle.Height - (hscroll.Visible ? hscroll.Thickness : 0)
+					)
+				);
+			}
+		}
+
 		#region ScrollSize
 		private Size scrollSize;
 
-		public virtual Size ScrollSize {
+		protected virtual Size ScrollSize {
 			get { return scrollSize; }
 			set {
 				if (scrollSize != value) {
