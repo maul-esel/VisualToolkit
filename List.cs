@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace VisualToolkit
 {
@@ -11,6 +12,9 @@ namespace VisualToolkit
 		public List()
 			: base()
 		{
+			Font = new Font(Font.FontFamily, 1.25f * Font.Size);
+			TitleFont = new Font(Font.FontFamily, 1.25f * Font.Size);
+
 			itemList.CollectionChanged += OnItemsChanged;
 			groupList.CollectionChanged += OnGroupsChanged;
 
@@ -24,6 +28,8 @@ namespace VisualToolkit
 			SelectedItemForeColor   = ColorTheme.DefaultTheme.TextColor;
 			SelectedItemBackColor   = ColorTheme.DefaultTheme.BackColor;
 			SelectedItemBorderColor = ColorTheme.DefaultTheme.BorderColor;
+
+			SetStyle(ControlStyles.ResizeRedraw | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
 		}
 
 		public List(IEnumerable<Item> items)
@@ -73,6 +79,11 @@ namespace VisualToolkit
 		}
 
 		public int ItemHeight {
+			get;
+			set;
+		}
+
+		public Font TitleFont {
 			get;
 			set;
 		}
@@ -368,7 +379,93 @@ namespace VisualToolkit
 		}
 
 		#region painting
-		protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			Rectangle paddedClient = GeometryHelper.ApplyPadding(ContentRectangle, Padding);
+			paddedClient.Offset(ScrollPosition);
+			int offsetY = 0;
+
+			if (IsGrouped) {
+				for (int i = 0; i < Groups.Count; ++i) {
+					// TODO: draw header
+					// TODO: draw items
+				}
+				throw new NotSupportedException("Grouping is not yet supported");
+			} else
+				for (int i = 0; i < Items.Count; ++i, offsetY += ItemHeight)
+					DrawItem(
+						Items[i],
+						e.Graphics, new Rectangle(
+							paddedClient.Left,
+							paddedClient.Top + offsetY,
+							paddedClient.Width,
+							ItemHeight
+						)
+					);
+
+			base.OnPaint(e);
+		}
+
+		protected virtual Padding SelectionExpansion {
+			get { return new Padding(3); }
+		}
+
+		protected virtual void DrawGroupHeader(Group group, Graphics g, Rectangle bounds)
+		{
+		}
+
+		protected virtual void DrawItem(Item item, Graphics g, Rectangle bounds)
+		{
+			bool isSelected = (item == SelectedItem);
+			if (!isSelected)
+				bounds = GeometryHelper.ApplyPadding(bounds, SelectionExpansion);
+
+			using (Brush bgBrush = new SolidBrush(isSelected ? SelectedItemBackColor : BackColor))
+				g.FillRectangle(bgBrush, bounds);
+			using (Pen borderPen = new Pen(isSelected ? SelectedItemBorderColor : ItemBorderColor, ItemBorderWidth))
+				g.DrawRectangle(borderPen, bounds);
+
+			const int margin = 5;
+			bounds = GeometryHelper.ApplyPadding(bounds, new Padding(margin));
+
+			StringFormat format = new StringFormat() {
+				Alignment = StringAlignment.Near,
+				LineAlignment = StringAlignment.Center
+			};
+
+			int xOffset = 0;
+			int yOffset = 0;
+			if (ShowImages) {
+				Size imageSize = new Size(bounds.Height, bounds.Height);
+				if (item.Image != null)
+					g.DrawImage(item.Image, new Rectangle(bounds.Location, imageSize));
+				xOffset += imageSize.Width + margin;
+			}
+
+			if (ShowTitles) {
+				float height = ShowDetails ? 0.25f * bounds.Height : bounds.Height;
+				RectangleF textRect = new RectangleF(bounds.Left + xOffset, bounds.Top + yOffset, bounds.Width - xOffset, height);
+
+				using (Brush brush = new SolidBrush(ForeColor))
+					g.DrawString(item.Title, TitleFont, brush, textRect, format);
+
+				yOffset += (int)height + margin;
+			}
+
+			if (ShowDetails) {
+				RectangleF textRect = new RectangleF(
+					bounds.Left + xOffset,
+					bounds.Top + yOffset,
+					bounds.Width - xOffset,
+					bounds.Height - yOffset
+				);
+				format.LineAlignment = StringAlignment.Near;
+				using (Brush brush = new SolidBrush(ForeColor))
+					g.DrawString(item.Details, Font, brush, textRect, format);
+			}
+		}
+
+		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			PaintHelper.FillWithParentBackground(e.Graphics, this);
 		}
