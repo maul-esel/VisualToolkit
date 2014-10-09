@@ -261,6 +261,8 @@ namespace VisualToolkit
 
 		protected virtual Group getGroup(object id)
 		{
+			if (id == null)
+				return null;
 			if (!groupDictionary.ContainsKey(id))
 				groupDictionary[id] = new Group() { Title = GetProperty<string>(GroupTitleValueMember, id) };
 			return groupDictionary[id];
