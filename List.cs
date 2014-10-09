@@ -315,6 +315,31 @@ namespace VisualToolkit
 		}
 		#endregion
 
+		#region SelectedItem
+		private Item selectedItem = null;
+
+		public Item SelectedItem {
+			get { return null; }
+			set {
+				if (selectedItem != value) {
+					selectedItem = value;
+					OnSelectedItemChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		public event EventHandler SelectedItemChanged;
+
+		protected virtual void OnSelectedItemChanged(EventArgs e)
+		{
+			Invalidate();
+
+			EventHandler handler = SelectedItemChanged;
+			if (handler != null)
+				handler(this, e);
+		}
+		#endregion
+
 		public InvocationMode InvocationMode {
 			get;
 			set;
