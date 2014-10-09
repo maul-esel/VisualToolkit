@@ -108,6 +108,7 @@ namespace VisualToolkit
 
 		protected virtual void OnItemsChanged(EventArgs e)
 		{
+			OnScrollSizeChanged(e);
 			Invalidate();
 
 			EventHandler handler = ItemsChanged;
@@ -354,6 +355,16 @@ namespace VisualToolkit
 		public InvocationMode InvocationMode {
 			get;
 			set;
+		}
+
+		protected override Size ScrollSize {
+			get { return new Size(ClientRectangle.Width, Padding.Vertical + Items.Count * ItemHeight); }
+		}
+
+		protected override void OnPaddingChanged(EventArgs e)
+		{
+			OnScrollSizeChanged(e);
+			base.OnPaddingChanged(e);
 		}
 
 		#region painting
