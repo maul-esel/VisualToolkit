@@ -88,10 +88,11 @@ namespace VisualToolkit
 					caretPosition = value;
 
 					if (CaretSelectionEnabled) {
-						if (value > SelectionStart)
-							SelectionLength = value - SelectionStart;
-						else {
-							SelectionLength += (SelectionStart - value);
+						if (value > selectionOrigin) {
+							SelectionStart = selectionOrigin;
+							SelectionLength = value - selectionOrigin;
+						} else {
+							SelectionLength = selectionOrigin - value;
 							SelectionStart = value;
 						}
 					} else
@@ -144,6 +145,8 @@ namespace VisualToolkit
 		#endregion
 
 		#region Selection
+		private int selectionOrigin;
+
 		private int selectionStart = 0;
 
 		public int SelectionStart {
@@ -196,7 +199,7 @@ namespace VisualToolkit
 		#region mouse handling
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			SelectionStart = CaretPosition = GetCaretPosition(e.Location.X);
+			selectionOrigin = SelectionStart = CaretPosition = GetCaretPosition(e.Location.X);
 			SelectionLength = 0;
 			mouseSelection = true;
 			base.OnMouseDown(e);
@@ -229,6 +232,7 @@ namespace VisualToolkit
 			switch (e.KeyCode) {
 				case Keys.ShiftKey:
 					keySelection = true;
+					selectionOrigin = CaretPosition;
 					break;
 				case Keys.Delete:
 				case Keys.Back:
