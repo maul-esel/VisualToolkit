@@ -19,12 +19,15 @@ namespace VisualToolkit
 		}
 
 		public Point ScrollPosition {
-			get { return new Point(-hscroll.ScrollValue, -vscroll.ScrollValue); }
+			get {
+				return new Point(
+					(int)((ContentRectangle.Width  / (float)ScrollSize.Width  - 1) * hscroll.ScrollValue),
+					(int)((ContentRectangle.Height / (float)ScrollSize.Height - 1) * vscroll.ScrollValue)
+				);
+			}
 			set {
-				if (hscroll.ScrollValue != value.X)
-					hscroll.ScrollValue = value.X;
-				if (vscroll.ScrollValue != value.Y)
-					vscroll.ScrollValue = value.Y;
+				hscroll.ScrollValue = (int)(value.X / (1 - ContentRectangle.Width  / (float)ScrollSize.Width));
+				vscroll.ScrollValue = (int)(value.Y / (1 - ContentRectangle.Height / (float)ScrollSize.Height));
 			}
 		}
 
