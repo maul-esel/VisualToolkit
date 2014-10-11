@@ -87,5 +87,24 @@ namespace VisualToolkit
 			if (!vscroll.Visible)
 				vscroll.ScrollValue = 0;
 		}
+
+		protected virtual void ScrollIntoView(Rectangle rect)
+		{
+			if (!ContentRectangle.Contains(rect)) {
+				int x = -ScrollPosition.X, y = -ScrollPosition.Y;
+
+				if (ContentRectangle.Bottom < rect.Bottom)
+					y += rect.Bottom - ContentRectangle.Bottom;
+				if (ContentRectangle.Top > rect.Top)
+					y -= ContentRectangle.Top - rect.Top;
+
+				if (ContentRectangle.Right < rect.Right)
+					x += rect.Right - ContentRectangle.Right;
+				if (ContentRectangle.Left > rect.Left)
+					x -= ContentRectangle.Left - rect.Left;
+
+				ScrollPosition = new Point(x, y);
+			}
+		}
 	}
 }
