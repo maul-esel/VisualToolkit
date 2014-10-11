@@ -355,6 +355,8 @@ namespace VisualToolkit
 
 		protected virtual void OnSelectedItemChanged(EventArgs e)
 		{
+			if (SelectedItem != null)
+				ScrollIntoView(GeometryHelper.ApplyPadding(GetItemBounds(SelectedItem), new Padding(-ItemBorderWidth)));
 			Invalidate();
 
 			EventHandler handler = SelectedItemChanged;
