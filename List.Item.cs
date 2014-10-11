@@ -60,6 +60,18 @@ namespace VisualToolkit
 				}
 			}
 
+			private object tag;
+
+			public object Tag {
+				get { return tag; }
+				set {
+					if (tag != value) {
+						tag = value;
+						OnPropertyChanged(new PropertyChangedEventArgs("Tag"));
+					}
+				}
+			}
+
 			public event PropertyChangedEventHandler PropertyChanged;
 
 			protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
