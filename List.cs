@@ -30,6 +30,9 @@ namespace VisualToolkit
 			SelectedItemBorderColor = ColorTheme.DefaultTheme.BorderColor;
 
 			SetStyle(ControlStyles.ResizeRedraw | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
+
+			moveSelectionUpTimer.Tick += (s, e) => moveSelectionUp();
+			moveSelectionDownTimer.Tick += (s, e) => moveSelectionDown();
 		}
 
 		public List(IEnumerable<Item> items)
@@ -378,6 +381,77 @@ namespace VisualToolkit
 		{
 			OnScrollSizeChanged(e);
 			base.OnPaddingChanged(e);
+		}
+
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			Item target = HitTest(e.Location);
+			if (target != null)
+				SelectedItem = target;
+
+			base.OnMouseClick(e);
+		}
+
+		#region key handling
+		private readonly TickOnceTimer moveSelectionUpTimer = new TickOnceTimer(300);
+		private readonly TickOnceTimer moveSelectionDownTimer = new TickOnceTimer(300);
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			switch (e.KeyCode) {
+				case Keys.Up:
+					moveSelectionUpTimer.Start();
+					break;
+				case Keys.Down:
+					moveSelectionDownTimer.Start();
+					break;
+			}
+			base.OnKeyDown(e);
+		}
+
+		protected override void OnKeyUp(KeyEventArgs e)
+		{
+			switch (e.KeyCode) {
+				case Keys.Up:
+					moveSelectionUpTimer.Stop();
+					break;
+				case Keys.Down:
+					moveSelectionDownTimer.Stop();
+					break;
+			}
+			base.OnKeyUp(e);
+		}
+
+		protected override bool IsInputKey(Keys keyData)
+		{
+			return base.IsInputKey(keyData) || keyData == Keys.Up || keyData == Keys.Down;
+		}
+
+		private void moveSelectionUp()
+		{
+			if (SelectedItem != null) {
+				int index = Items.IndexOf(SelectedItem);
+				if (index > 0)
+					SelectedItem = Items[index - 1];
+			}
+		}
+
+		private void moveSelectionDown()
+		{
+			if (SelectedItem != null) {
+				int index = Items.IndexOf(SelectedItem);
+				if (index < Items.Count - 1)
+					SelectedItem = Items[index + 1];
+			}
+		}
+		#endregion
+
+		public virtual Item HitTest(Point pt)
+		{
+			for (int i = 0; i < Items.Count; ++i)
+				if (GetItemBounds(i).Contains(pt))
+					return Items[i];
+			return null;
 		}
 
 		#region painting
