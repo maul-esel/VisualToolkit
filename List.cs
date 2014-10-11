@@ -383,7 +383,6 @@ namespace VisualToolkit
 		{
 			Rectangle paddedClient = GeometryHelper.ApplyPadding(ContentRectangle, Padding);
 			paddedClient.Offset(ScrollPosition);
-			int offsetY = 0;
 
 			if (IsGrouped) {
 				for (int i = 0; i < Groups.Count; ++i) {
@@ -392,18 +391,28 @@ namespace VisualToolkit
 				}
 				throw new NotSupportedException("Grouping is not yet supported");
 			} else
-				for (int i = 0; i < Items.Count; ++i, offsetY += ItemHeight)
-					DrawItem(
-						Items[i],
-						e.Graphics, new Rectangle(
-							paddedClient.Left,
-							paddedClient.Top + offsetY,
-							paddedClient.Width,
-							ItemHeight
-						)
-					);
+				for (int i = 0; i < Items.Count; ++i)
+					DrawItem(Items[i], e.Graphics, GetItemBounds(i));
 
 			base.OnPaint(e);
+		}
+
+		protected virtual Rectangle GetItemBounds(Item item)
+		{
+			return GetItemBounds(Items.IndexOf(item));
+		}
+
+		protected virtual Rectangle GetItemBounds(int index)
+		{
+			Rectangle paddedClient = GeometryHelper.ApplyPadding(ContentRectangle, Padding);
+			paddedClient.Offset(ScrollPosition);
+
+			return new Rectangle(
+				paddedClient.Left,
+				paddedClient.Top + index * ItemHeight,
+				paddedClient.Width,
+				ItemHeight
+			);
 		}
 
 		protected virtual Padding SelectionExpansion {
