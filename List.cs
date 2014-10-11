@@ -416,7 +416,7 @@ namespace VisualToolkit
 		}
 
 		protected virtual Padding SelectionExpansion {
-			get { return new Padding(3); }
+			get { return new Padding(5); }
 		}
 
 		protected virtual void DrawGroupHeader(Group group, Graphics g, Rectangle bounds)
