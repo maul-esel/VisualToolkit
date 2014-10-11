@@ -1,4 +1,6 @@
-﻿namespace VisualToolkit
+﻿using System;
+
+namespace VisualToolkit
 {
 	partial class List
 	{
@@ -12,10 +14,32 @@
 
 			public Group()
 			{
-				items.ItemAdded += (s, e) => e.Item.Group = this;
-				items.ItemRemoved += (s, e) => e.Item.Group = null;
+				items.ItemAdded += (s, e) => {
+					e.Item.Group = this;
+					e.Item.Invoked += OnItemInvoked;
+				};
+				items.ItemRemoved += (s, e) => {
+					e.Item.Group = null;
+					e.Item.Invoked -= OnItemInvoked;
+				};
 				items.CollectionChanged += (s, e) => OnPropertyChanged("Items");
 			}
+
+			#region ItemInvoked
+			public event ItemEventHandler<Item> ItemInvoked;
+
+			private void OnItemInvoked(object sender, EventArgs e)
+			{
+				OnItemInvoked(new ItemEventArgs<Item>(sender as Item));
+			}
+
+			protected virtual void OnItemInvoked(ItemEventArgs<Item> e)
+			{
+				ItemEventHandler<Item> handler = ItemInvoked;
+				if (handler != null)
+					handler(this, e);
+			}
+			#endregion
 
 			private string title;
 

@@ -358,8 +358,10 @@ namespace VisualToolkit
 
 		protected virtual void OnSelectedItemChanged(EventArgs e)
 		{
-			if (SelectedItem != null)
+			if (SelectedItem != null) {
 				ScrollIntoView(GeometryHelper.ApplyPadding(GetItemBounds(SelectedItem), new Padding(-ItemBorderWidth)));
+				InvokeItem(SelectedItem, InvocationMode.Select);
+			}
 			Invalidate();
 
 			EventHandler handler = SelectedItemChanged;
@@ -368,10 +370,29 @@ namespace VisualToolkit
 		}
 		#endregion
 
+		#region Invocation
 		public InvocationMode InvocationMode {
 			get;
 			set;
 		}
+
+		public event ItemEventHandler<Item> ItemInvoked;
+
+		protected void InvokeItem(Item item, InvocationMode reason)
+		{
+			if (InvocationMode.HasFlag(reason)) {
+				item.RaiseInvoked();
+				OnItemInvoked(new ItemEventArgs<Item>(item));
+			}
+		}
+
+		protected virtual void OnItemInvoked(ItemEventArgs<Item> e)
+		{
+			ItemEventHandler<Item> handler = ItemInvoked;
+			if (handler != null)
+				handler(this, e);
+		}
+		#endregion
 
 		protected override Size ScrollSize {
 			get { return new Size(ClientRectangle.Width, Padding.Vertical + Items.Count * ItemHeight); }
@@ -386,10 +407,19 @@ namespace VisualToolkit
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			Item target = HitTest(e.Location);
-			if (target != null)
+			if (target != null) {
+				InvokeItem(target, InvocationMode.Click);
 				SelectedItem = target;
+			}
 
 			base.OnMouseClick(e);
+		}
+
+		protected override void OnMouseDoubleClick(MouseEventArgs e)
+		{
+			Item target = HitTest(e.Location);
+			if (target != null)
+				InvokeItem(target, InvocationMode.DoubleClick);
 		}
 
 		#region key handling
@@ -404,6 +434,10 @@ namespace VisualToolkit
 					break;
 				case Keys.Down:
 					moveSelectionDownTimer.Start();
+					break;
+				case Keys.Enter:
+					if (SelectedItem != null)
+						InvokeItem(SelectedItem, InvocationMode.Enter);
 					break;
 			}
 			base.OnKeyDown(e);

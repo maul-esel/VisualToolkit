@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 
 namespace VisualToolkit
@@ -68,6 +69,20 @@ namespace VisualToolkit
 						OnPropertyChanged("Tag");
 					}
 				}
+			}
+
+			public event EventHandler Invoked;
+
+			internal void RaiseInvoked()
+			{
+				OnInvoked(EventArgs.Empty);
+			}
+
+			protected virtual void OnInvoked(EventArgs e)
+			{
+				EventHandler handler = Invoked;
+				if (handler != null)
+					handler(this, e);
 			}
 		}
 	}
