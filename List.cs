@@ -342,7 +342,7 @@ namespace VisualToolkit
 		private Item selectedItem = null;
 
 		public Item SelectedItem {
-			get { return null; }
+			get { return selectedItem; }
 			set {
 				if (selectedItem != value) {
 					selectedItem = value;
