@@ -44,7 +44,7 @@ namespace VisualToolkit
 
 		public override Size GetPreferredSize(Size proposedSize)
 		{
-			return new Size(proposedSize.Width, Math.Max(proposedSize.Height, Padding.Vertical + Items.Count * ItemHeight));
+			return new Size(proposedSize.Width, Math.Max(proposedSize.Height, ScrollSize.Height));
 		}
 
 		#region styling
