@@ -54,6 +54,7 @@
     <Compile Include="InvocationMode.cs" />
     <Compile Include="List.Item.cs" />
     <Compile Include="List.Group.cs" />
+    <Compile Include="NotifyPropertyChangedBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

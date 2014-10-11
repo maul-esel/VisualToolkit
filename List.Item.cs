@@ -1,12 +1,10 @@
-using System;
-using System.ComponentModel;
 using System.Drawing;
 
 namespace VisualToolkit
 {
 	partial class List
 	{
-		public class Item : INotifyPropertyChanged
+		public class Item : NotifyPropertyChangedBase
 		{
 			private string title;
 
@@ -15,7 +13,7 @@ namespace VisualToolkit
 				set {
 					if (title != value) {
 						title = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Title"));
+						OnPropertyChanged("Title");
 					}
 				}
 			}
@@ -27,7 +25,7 @@ namespace VisualToolkit
 				set {
 					if (details != value) {
 						details = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Details"));
+						OnPropertyChanged("Details");
 					}
 				}
 			}
@@ -39,7 +37,7 @@ namespace VisualToolkit
 				set {
 					if (image != value) {
 						image = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Image"));
+						OnPropertyChanged("Image");
 					}
 				}
 			}
@@ -55,7 +53,7 @@ namespace VisualToolkit
 						if (group != null)
 							group.Items.Remove(this);
 						group = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Group"));
+						OnPropertyChanged("Group");
 					}
 				}
 			}
@@ -67,18 +65,9 @@ namespace VisualToolkit
 				set {
 					if (tag != value) {
 						tag = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Tag"));
+						OnPropertyChanged("Tag");
 					}
 				}
-			}
-
-			public event PropertyChangedEventHandler PropertyChanged;
-
-			protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-			{
-				PropertyChangedEventHandler handler = PropertyChanged;
-				if (handler != null)
-					handler(this, e);
 			}
 		}
 	}

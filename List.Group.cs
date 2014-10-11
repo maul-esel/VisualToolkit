@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-
-namespace VisualToolkit
+﻿namespace VisualToolkit
 {
 	partial class List
 	{
-		public class Group : INotifyPropertyChanged
+		public class Group : NotifyPropertyChangedBase
 		{
 			private readonly EventableCollection<Item> items = new EventableCollection<Item>(false);
 
@@ -16,7 +14,7 @@ namespace VisualToolkit
 			{
 				items.ItemAdded += (s, e) => e.Item.Group = this;
 				items.ItemRemoved += (s, e) => e.Item.Group = null;
-				items.CollectionChanged += (s, e) => OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+				items.CollectionChanged += (s, e) => OnPropertyChanged("Items");
 			}
 
 			private string title;
@@ -26,7 +24,7 @@ namespace VisualToolkit
 				set {
 					if (title != value) {
 						title = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Title"));
+						OnPropertyChanged("Title");
 					}
 				}
 			}
@@ -38,18 +36,9 @@ namespace VisualToolkit
 				set {
 					if (tag != value) {
 						tag = value;
-						OnPropertyChanged(new PropertyChangedEventArgs("Tag"));
+						OnPropertyChanged("Tag");
 					}
 				}
-			}
-
-			public event PropertyChangedEventHandler PropertyChanged;
-
-			protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-			{
-				PropertyChangedEventHandler handler = PropertyChanged;
-				if (handler != null)
-					handler(this, e);
 			}
 		}
 	}
