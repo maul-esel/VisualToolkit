@@ -27,10 +27,12 @@ namespace VisualToolkit
 
 		public new void Stop()
 		{
-			if (Enabled && !ticked && EnsureOneTick)
-				OnTick(EventArgs.Empty);
-			ticked = false;
-			base.Stop();
+			if (Enabled) {
+				base.Stop();
+				if (!ticked && EnsureOneTick)
+					OnTick(EventArgs.Empty);
+				ticked = false;
+			}
 		}
 	}
 }
