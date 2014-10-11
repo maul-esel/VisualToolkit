@@ -125,6 +125,9 @@ namespace VisualToolkit
 			OnScrollSizeChanged(e);
 			Invalidate();
 
+			if (SelectedItem != null && Items != null && !Items.Contains(SelectedItem))
+				SelectedItem = null;
+
 			EventHandler handler = ItemsChanged;
 			if (handler != null)
 				handler(this, e);
