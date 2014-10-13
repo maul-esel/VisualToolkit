@@ -55,6 +55,8 @@
     <Compile Include="List.Item.cs" />
     <Compile Include="List.Group.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
+    <Compile Include="Sidebar.cs" />
+    <Compile Include="Sidebar.Item.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
