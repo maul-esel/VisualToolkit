@@ -23,9 +23,7 @@ namespace VisualToolkit
 		}
 
 		protected virtual Padding PressExpansion {
-			get {
-				return new Padding(1);
-			}
+			get { return new Padding(1); }
 		}
 
 		protected override void OnPaint(PaintEventArgs e)

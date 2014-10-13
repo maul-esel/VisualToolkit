@@ -22,6 +22,7 @@ namespace VisualToolkit
 			ItemBorderWidth = 2;
 
 			ForeColor       = ColorTheme.DefaultTheme.TextColor;
+			BackColor       = ColorTheme.DefaultTheme.BackColor;
 			ItemBackColor   = ColorTheme.DefaultTheme.BackColor;
 			ItemBorderColor = ColorTheme.DefaultTheme.BorderColor;
 

@@ -53,7 +53,7 @@ namespace VisualToolkit
 		{
 			base.OnPaintBackground(e);
 			using (Brush brush = new SolidBrush(IsPressed ? PressedBackColor : BackColor))
-				e.Graphics.FillRectangle(brush, IsPressed ? ClientRectangle : GeometryHelper.ApplyPadding(ClientRectangle, PressExpansion));
+				e.Graphics.FillRectangle(brush, IsPressed ? GeometryHelper.ApplyPadding(ClientRectangle, PressExpansion) : ClientRectangle);
 		}
 	}
 }

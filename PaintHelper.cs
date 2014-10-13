@@ -5,10 +5,10 @@ namespace VisualToolkit
 {
 	internal static class PaintHelper
 	{
+		internal static readonly Brush DisabledFilter = new SolidBrush(Color.FromArgb(75, Color.White));
 		internal static void DrawDisabledFilter(Graphics g, Rectangle rect)
 		{
-			using (Brush brush = new SolidBrush(Color.FromArgb(75, Color.White)))
-				g.FillRectangle(brush, rect);
+			g.FillRectangle(DisabledFilter, rect);
 		}
 
 		internal static void DrawDisabledFilter(Graphics g, Control ctrl)

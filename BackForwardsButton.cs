@@ -56,7 +56,8 @@ namespace VisualToolkit
 			using (Pen symbolPen = new Pen(IsPressed ? PressedForeColor : ForeColor, symbolWidth))
 				e.Graphics.DrawLines(symbolPen, GetSymbol(buttonRectangle));
 
-			base.OnPaint(e);
+			if (!Enabled)
+				e.Graphics.FillEllipse(PaintHelper.DisabledFilter, buttonRectangle);
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)
